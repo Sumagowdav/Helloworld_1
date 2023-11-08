@@ -1,0 +1,25 @@
+pipeline {
+    agent  { label "buildagent1" }
+
+    stages {
+        stage('clone code') {
+            steps {
+                echo 'cloing git project'
+                git branch: 'main', url: 'https://github.com/Sumagowdav/Helloworld_1.git'
+            }
+        }
+         stage('build project') {
+            steps {
+                echo 'build stage'
+                sh 'yum install maven -y'
+                sh 'mvn clean package'
+            }
+        }
+         stage('deploy') {
+            steps {
+                echo 'deploy project'
+                deploy adapters: [tomcat8(credentialsId: 'fb8b7ac9-b164-4c6b-b357-bd11f43aa6c6', path: '', url: 'http://13.113.163.123:8080/')], contextPath: null, war: '**/*.war'
+            }
+        }    
+    }
+}
