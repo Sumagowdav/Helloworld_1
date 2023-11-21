@@ -1,0 +1,24 @@
+pipeline {
+    agent { label "buildagent1" }
+
+    stages {
+        stage('git clone') {
+            steps {
+                echo 'cloning the project'
+                git branch: 'main', url: 'https://github.com/Sumagowdav/Helloworld_1.git'
+            }
+        }
+    stage('build') {
+            steps {
+                echo 'maven build'
+                sh 'mvn clean package'
+            }
+        }
+    stage('docker build') {
+            steps {
+                echo 'building dockerfile'
+                sh 'docker build -t helloworld .'
+            }
+        }    
+    }
+}
