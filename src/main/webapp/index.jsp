@@ -3,10 +3,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Welcome to Devops traning  2026 </title>
+<title> Welcome to Devops traning 2023 suma </title>
 <style>
   body {
-    background-color:red;
+    background-color: green;
   }
 </style>
 </head>
