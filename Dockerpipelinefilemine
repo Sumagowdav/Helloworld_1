@@ -1,0 +1,64 @@
+pipeline {
+    agent {label "buildagent1" }
+
+    stages {
+        stage('clone code') {
+            steps {
+                echo 'stage1 clone code'
+                git branch: 'main', url: 'https://github.com/Sumagowdav/Helloworld_1.git'
+            }
+        }
+    stage('maven build') {
+            steps {
+                echo 'maven build'
+                sh 'yum install maven -y'
+                sh 'mvn clean package'
+            }
+        }
+    stage('delete old container') {
+            steps {
+                echo 'delete old container'
+                sh 'docker stop helloworld || true'
+                sh 'docker rm helloworld || true'
+            }
+        }     
+    stage('delete old iamges') {
+            steps {
+                echo 'delete old images'
+                sh 'docker rmi -f $(docker images -q)'
+            }
+        } 
+           
+     stage('docker build') {
+            steps {
+                echo 'docker build'
+                sh 'docker build -t helloworldnew .'
+            }
+        }  
+     stage('docker login') {
+            steps {
+                echo 'docker login'
+                sh 'docker login -u sumagowda31 -p Beautiful@123'
+            }
+        }        
+     stage('tag image') {
+            steps {
+                echo 'tag image'
+                sh 'docker tag helloworldnew sumagowda31/helloworld'
+            }
+        }   
+     stage('docker push') {
+            steps {
+                echo 'docker push'
+                sh 'docker push sumagowda31/helloworld'
+            }
+        }
+    
+     stage('docker run') {
+            steps {
+                echo 'docker run'
+                sh 'docker run --name helloworld -d -p 8181:8080 -p 5000:5000 sumagowda31/helloworld'
+            }
+        }        
+    }
+}
