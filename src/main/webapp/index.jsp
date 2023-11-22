@@ -6,7 +6,7 @@
 <title> Welcome to Devops traning 2023 suma </title>
 <style>
   body {
-    background-color: green;
+    background-color: blue;
   }
 </style>
 </head>
